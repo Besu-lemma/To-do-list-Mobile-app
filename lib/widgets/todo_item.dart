@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:mini_project/model/todo.dart';
 import '../constraints/colors.dart';
 
 class TodoItem extends StatelessWidget {
-  const TodoItem({super.key});
-
+  final ToDo todo;
+  final onToDoChange;
+ final onDeleteItems; 
+  const TodoItem({super.key,required this.todo, required this.onToDoChange, required this.onDeleteItems});
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       child: ListTile(
-        onTap:(){},
+        onTap:(){
+          onToDoChange(todo);
+        },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20)
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         tileColor: Colors.white,
         leading: Icon(
-          Icons.check_box,
+          todo.isDone? Icons.check_box : Icons.check_box_outline_blank,
           color: tdBlue,
         ),
-       title: Text("check email",
+       title: Text(
+        todo.todoText!,
        style: TextStyle(
         fontSize:16,
         color: tdBlack,
-        decoration: TextDecoration.lineThrough,
+        decoration: todo.isDone? TextDecoration.lineThrough : null,
        ),
        ),
        trailing: Container(
@@ -41,7 +47,9 @@ class TodoItem extends StatelessWidget {
         icon: Icon(
           Icons.delete
         ),
-        onPressed: (){}
+        onPressed: (){
+          onDeleteItems(todo.id);
+        }
         ,
         ),
        ),
